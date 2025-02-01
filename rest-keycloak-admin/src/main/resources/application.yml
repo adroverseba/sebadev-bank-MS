@@ -1,0 +1,19 @@
+keycloak:
+  realm: springboot-keycloak
+  server-url: http://localhost:8180/
+  client-id: rest-admin-client
+  client-secret: hTkGXg4EZxlpxlQ8ZjFFWtcBzzvVjLbP
+#  connection-timeout: 5000
+#  socket-timeout: 5000
+#  connection-request-timeout: 5000
+
+server:
+  port: 8083
+
+logging:
+  level:
+    org:
+      keycloak: DEBUG
+      springframework:
+        security: DEBUG
+    com.sebadevbank.usersservice: DEBUG
