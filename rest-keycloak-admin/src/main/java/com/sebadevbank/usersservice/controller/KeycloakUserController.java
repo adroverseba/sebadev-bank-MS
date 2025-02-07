@@ -1,7 +1,6 @@
 package com.sebadevbank.usersservice.controller;
 
-import com.sebadevbank.usersservice.model.User;
-import com.sebadevbank.usersservice.repository.KeycloakUserRepository;
+import com.sebadevbank.usersservice.dto.User;
 import com.sebadevbank.usersservice.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -43,6 +42,12 @@ public class KeycloakUserController {
     public ResponseEntity<User> registerUser(@RequestBody UserRepresentation userRepresentation){
         User registeredUser = userService.registerUser(userRepresentation);
         return ResponseEntity.ok(registeredUser);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable String userId) {
+        userService.deleteUserById(userId);
+        return ResponseEntity.ok("Usuario con ID: "+userId+" eliminado con éxito");
     }
 
 

@@ -1,6 +1,7 @@
 package com.sebadevbank.usersservice.repository;
 
-import com.sebadevbank.usersservice.model.User;
+import com.sebadevbank.usersservice.dto.User;
+import com.sebadevbank.usersservice.exception.UserNotFoundException;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
@@ -54,9 +56,10 @@ public class KeycloakUserRepositoryImpl implements KeycloakUserRepository {
             UsersResource usersResource = keycloak.realm(realm).users();
             List<UserRepresentation> userRepresentation = usersResource.search(username, true);
 
-//            if (userRepresentation.isEmpty()){
-//                log.warn("No users found with username:{}",username);
-//            }
+            if (userRepresentation.isEmpty()){
+                log.warn("No users found with username:{}",username);
+                throw new UserNotFoundException("No se encontró el usuario con username: "+username);
+            }
 
             return userRepresentation.stream().map(user -> fromRepresentation(user)).collect(Collectors.toList());
         } catch (Exception e) {
@@ -105,6 +108,18 @@ public class KeycloakUserRepositoryImpl implements KeycloakUserRepository {
      */
     @Override
     public void deleteById(String userId) {
+        try {
+            //obtener el resource del usuario
+            UserResource userResource = keycloak.realm(realm).users().get(userId);
+
+            //Eliminar usuario
+            userResource.remove();;
+            log.info("Usuarion con ID: {} eliminado correctamente", userId);
+        }catch(NotFoundException e){
+            throw new UserNotFoundException("Usuario con Id: "+userId+" no existe");
+        }catch(Exception e){
+            throw new RuntimeException("Error al eliminar el usuario",e);
+        }
 
     }
 

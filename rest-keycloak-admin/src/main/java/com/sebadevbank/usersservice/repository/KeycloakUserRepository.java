@@ -1,6 +1,6 @@
 package com.sebadevbank.usersservice.repository;
 
-import com.sebadevbank.usersservice.model.User;
+import com.sebadevbank.usersservice.dto.User;
 import org.keycloak.representations.idm.UserRepresentation;
 
 import java.util.List;

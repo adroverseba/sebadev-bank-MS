@@ -1,6 +1,6 @@
 package com.sebadevbank.usersservice.service;
 
-import com.sebadevbank.usersservice.model.User;
+import com.sebadevbank.usersservice.dto.User;
 import com.sebadevbank.usersservice.repository.KeycloakUserRepository;
 import com.sebadevbank.usersservice.util.TokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,9 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -48,12 +53,28 @@ public class UserService {
     }
 
     private String generateAlias() {
-        List<String> words = List.of("sol", "luz", "nube", "cielo", "estrella", "viento", "mar", "río",
-                "rojo", "verde", "azul", "tigre", "león", "águila", "montaña", "fuego");
+        List<String> words = readWordsFromFiles("alias_words.txt");
         Random random = new Random();
         return words.get(random.nextInt(words.size()))+"."+
                 words.get(random.nextInt(words.size()))+"."+
                 words.get(random.nextInt(words.size()));
+    }
+
+    private List<String> readWordsFromFiles(String filePath) {
+        //try-with-resources: esto me permite que InputStream y BufferedReader se cierre automaticamente al terminar el bloque try
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);//busco el archivo en el classpath
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));//
+        ) {
+            //verifica la existencia del archivo
+            if (inputStream == null) {
+                throw new RuntimeException("No se encontró el archivo: " + filePath);
+            }
+
+            return reader.lines()//retorna un stream de lineas
+                    .collect(Collectors.toList());//devuelve un List<String>
+        }catch(IOException e){
+            throw new RuntimeException("Error leyendo archivo de palabras para alias",e);
+        }
     }
 
     private String generateCvu() {
@@ -96,6 +117,8 @@ public class UserService {
                 ResponseEntity.internalServerError().body("Error al invalidar sesión");
     }
 
-
+    public void deleteUserById(String userId){
+        keycloakUserRepository.deleteById(userId);
+    }
 
 }
