@@ -153,7 +153,12 @@ public class KeycloakUserRepositoryImpl implements KeycloakUserRepository {
 
 
     private User fromRepresentation(UserRepresentation userRepresentation) {
-        return new User(userRepresentation.getId(), userRepresentation.getFirstName(), userRepresentation.getLastName(), userRepresentation.getEmail());
+        return new User(userRepresentation.getId(),
+                userRepresentation.getFirstName(),
+                userRepresentation.getLastName(),
+                userRepresentation.getEmail(),
+                userRepresentation.getAttributes().get("cvu").get(0),
+                userRepresentation.getAttributes().get("alias").get(0));
     }
 
 }

@@ -23,8 +23,8 @@ public class KeycloakUserController {
     }
 
     @GetMapping("/search/{username}")
-    public List<User> getUserByUsername(@PathVariable String username) {
-        return userService.findByName(username);
+    public ResponseEntity<List<User>> getUserByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(userService.findByName(username));
     }
 
     @PostMapping("/{userId}/logout")
