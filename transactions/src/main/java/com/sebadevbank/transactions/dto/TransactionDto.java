@@ -14,4 +14,6 @@ public class TransactionDto {
 
     private String transactionType;
 
+    private LocalDateTime timestamp;
+
 }

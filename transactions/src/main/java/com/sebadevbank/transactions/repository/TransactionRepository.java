@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface TransactionRepository extends JpaRepository<Transaction,Long> {
@@ -15,4 +16,6 @@ public interface TransactionRepository extends JpaRepository<Transaction,Long> {
     Page<Transaction> findTopNByAccountIdOrderByTimestampDesc(@Param("accountId") Long accountId, Pageable pageable);
 
     List<Transaction> findByAccountId(Long accountId);
+
+    Optional<Transaction> findByAccountIdAndId(Long accountId, Long d);
 }

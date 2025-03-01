@@ -14,4 +14,7 @@ public interface TransactionFeignClient {
     @GetMapping("/transactions/{accountId}/last")
     List<TransactionDto> getLastTransactions(@PathVariable Long accountId);
 
+    @GetMapping("/transactions/{accountNumber}/all")
+    List<TransactionDto> getAllTransactions(@PathVariable Long accountNumber);
+
 }

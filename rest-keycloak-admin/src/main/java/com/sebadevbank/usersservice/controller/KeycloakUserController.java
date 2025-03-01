@@ -50,5 +50,10 @@ public class KeycloakUserController {
         return ResponseEntity.ok("Usuario con ID: "+userId+" eliminado con éxito");
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User updatedUser){
+        return ResponseEntity.ok(userService.updateUser(id,updatedUser));
+    }
+
 
 }

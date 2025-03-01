@@ -20,6 +20,9 @@ management:
   endpoint:
     health:
       show-details: always
+  info:
+    env:
+      enabled: true
 
 
 #Eureka configurations
@@ -31,6 +34,12 @@ eureka:
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://localhost:8070/eureka/
+
+info:
+  app:
+    name: "accounts"
+    description: "seba dev Bank Accounts Application"
+    version: "1.0.0"
 
 logging:
   level:

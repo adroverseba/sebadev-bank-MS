@@ -1,3 +1,10 @@
+spring:
+  application:
+    name: rest-keycloak-admin
+
+server:
+  port: 8083
+
 keycloak:
   realm: springboot-keycloak
   server-url: http://localhost:8180/
@@ -7,8 +14,16 @@ keycloak:
 #  socket-timeout: 5000
 #  connection-request-timeout: 5000
 
-server:
-  port: 8083
+
+#Eureka configurations
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
 
 logging:
   level:

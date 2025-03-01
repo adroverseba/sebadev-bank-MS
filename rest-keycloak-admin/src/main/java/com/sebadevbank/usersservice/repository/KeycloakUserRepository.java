@@ -20,4 +20,6 @@ public interface KeycloakUserRepository {
     boolean logoutUserById(String userId);
 
     boolean logoutUserByToken(String userId);
+
+    void updateUser(String userId, User updatedUser);
 }

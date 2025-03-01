@@ -9,6 +9,7 @@ public class TransactionMapper {
         transactionDto.setAccountId(transaction.getAccountId());
         transactionDto.setAmount(transaction.getAmount());
         transactionDto.setTransactionType(transaction.getTransactionType());
+        transactionDto.setTimestamp(transaction.getTimestamp());
         return transactionDto;
     }
 

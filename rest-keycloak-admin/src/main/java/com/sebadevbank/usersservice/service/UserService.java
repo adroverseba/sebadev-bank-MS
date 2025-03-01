@@ -121,4 +121,10 @@ public class UserService {
         keycloakUserRepository.deleteById(userId);
     }
 
+    public User updateUser(String userId, User updatedUser){
+        keycloakUserRepository.updateUser(userId,updatedUser);
+
+        return findById(userId);
+    }
+
 }

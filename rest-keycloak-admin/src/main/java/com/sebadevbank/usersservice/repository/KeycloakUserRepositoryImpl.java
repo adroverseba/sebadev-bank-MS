@@ -151,6 +151,36 @@ public class KeycloakUserRepositoryImpl implements KeycloakUserRepository {
         }
     }
 
+    @Override
+    public void updateUser(String userId, User updatedUser) {
+        UserResource userResource = keycloak.realm(realm).users().get(userId);
+        UserRepresentation userRepresentation = userResource.toRepresentation();
+
+        if (userRepresentation == null){
+            throw new UserNotFoundException("Usuario no encontrado");
+        }
+
+        if (!userRepresentation.getAttributes().get("cvu").getFirst().equals(updatedUser.getCvu())){
+            throw new UnsupportedOperationException("El CVU no puede ser modificado");
+        }
+
+        if (updatedUser.getAlias() != null && !userRepresentation.getAttributes().get("alias").getFirst().equals(updatedUser.getAlias())){
+            throw new UnsupportedOperationException("El ALIAS no puede ser modificado");
+        }
+
+        if(updatedUser.getFirstName() != null){
+            userRepresentation.setFirstName(updatedUser.getFirstName());
+        }
+        if(updatedUser.getLastName() !=null){
+            userRepresentation.setLastName(updatedUser.getLastName());
+        }
+        if (updatedUser.getEmail() != null) {
+            userRepresentation.setEmail(updatedUser.getEmail());
+        }
+
+        userResource.update(userRepresentation);
+    }
+
 
     private User fromRepresentation(UserRepresentation userRepresentation) {
         return new User(userRepresentation.getId(),

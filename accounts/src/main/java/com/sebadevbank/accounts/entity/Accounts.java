@@ -23,6 +23,9 @@ public class Accounts {
     @Id
     private Long id;
 
+    @Column(name = "user_id")
+    private String userId;
+
     @Column(name = "owner_name")
     private String ownerName;
 
